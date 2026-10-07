@@ -41,6 +41,7 @@ For testing jobs:
         with:
           path: napari
           repository: napari/napari
+          ref: refs/pull/9555/head
 
       - name: Disable ptrace security restrictions
         if: runner.os == 'Linux'
