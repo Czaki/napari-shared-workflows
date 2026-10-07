@@ -17,7 +17,7 @@ on:
         qt_backend:
           required: false
           type: string
-          default: "PyQt6"
+          default: "pyqt6"
         project:
           required: false
           type: string
@@ -40,11 +40,13 @@ jobs:
         with:
           path: project
           repository: ${{ inputs.project }}
+          persist-credentials: 'false'
       - name: Checkout napari
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           path: napari
           repository: napari/napari
+          persist-credentials: 'false'
           ref: refs/pull/9555/head
 
       - name: Disable ptrace security restrictions
@@ -75,7 +77,8 @@ jobs:
       - name: Install tox
         run: pip install tox tox-gh-actions tox-min-req tox-uv
       - name: run tox
-        run: tox -c napari ${{ inputs.posargs != '' && '--' || '' }} ${{ inputs.posargs }}
+        run: tox -c napari ${{ inputs.posargs != '' && '--' || '' }} ${POSARGS}
         env:
           NAPARI_TEST_CONSTRAINTS:  ${{ github.workspace }}/napari/resources/constraints_py${{ inputs.python_version }}.txt
           NAPARI_TEST_EXTRA_SETUP_COMMANDS: uv pip install ${{ github.workspace }}/project
+          POSARGS: ${{ inputs.posargs }}
