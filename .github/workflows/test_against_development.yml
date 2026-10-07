@@ -23,7 +23,7 @@ on:
           type: string
           default: ""
 
-For testing jobs:
+jobs:
   test_against_napari:
     name: Build & Upload Docs Artifact
     runs-on: ${{ inputs.platform }}
