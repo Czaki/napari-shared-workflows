@@ -22,6 +22,10 @@ on:
           required: false
           type: string
           default: ""
+        posargs:
+          required: false
+          type: string
+          default: ""
 
 jobs:
   test_against_napari:
@@ -71,7 +75,7 @@ jobs:
       - name: Install tox
         run: pip install tox tox-gh-actions tox-min-req tox-uv
       - name: run tox
-        run: tox -c napari
+        run: tox -c napari ${{ inputs.posargs != '' && '--' || '' }} ${{ inputs.posargs }}
         env:
           NAPARI_TEST_CONSTRAINTS:  ${{ github.workspace }}/napari/resources/constraints_py${{ inputs.python_version }}.txt
           NAPARI_TEST_EXTRA_SETUP_COMMANDS: uv pip install ${{ github.workspace }}/project
