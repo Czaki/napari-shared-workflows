@@ -29,7 +29,7 @@ on:
 
 jobs:
   test_against_napari:
-    name: Build & Upload Docs Artifact
+    name: Test napari against main of ${{ inputs.project }} using Python ${{ inputs.python_version }}
     runs-on: ${{ inputs.platform }}
     steps:
       - name: Checkout project
@@ -38,6 +38,7 @@ jobs:
           path: project
           repository: ${{ inputs.project }}
           persist-credentials: 'false'
+          fetch-depth: 0
       - name: Checkout napari
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -45,6 +46,7 @@ jobs:
           repository: napari/napari
           persist-credentials: 'false'
           ref: refs/pull/9555/head
+          fetch-depth: 0
 
       - name: Disable ptrace security restrictions
         if: runner.os == 'Linux'
