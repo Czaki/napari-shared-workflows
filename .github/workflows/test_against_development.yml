@@ -79,6 +79,6 @@ jobs:
       - name: run tox
         run: tox -c napari ${{ inputs.posargs != '' && '--' || '' }} ${POSARGS}
         env:
-          NAPARI_TEST_CONSTRAINTS:  ${{ github.workspace }}/napari/resources/constraints_py${{ inputs.python_version }}.txt
+          NAPARI_TEST_CONSTRAINTS:  ${{ github.workspace }}/napari/resources/constraints/constraints_py${{ inputs.python_version }}.txt
           NAPARI_TEST_EXTRA_SETUP_COMMANDS: uv pip install ${{ github.workspace }}/project
           POSARGS: ${{ inputs.posargs }}
