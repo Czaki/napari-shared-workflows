@@ -31,9 +31,6 @@ jobs:
   test_against_napari:
     name: Build & Upload Docs Artifact
     runs-on: ${{ inputs.platform }}
-    env:
-      TOXENV: ${{ inputs.toxenv }}
-      BACKEND: ${{ inputs.qt_backend }}
     steps:
       - name: Checkout project
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -77,8 +74,11 @@ jobs:
       - name: Install tox
         run: pip install tox tox-gh-actions tox-min-req tox-uv
       - name: run tox
-        run: tox -c napari ${{ inputs.posargs != '' && '--' || '' }} ${POSARGS}
+        run: |
+          tox -c napari
         env:
           NAPARI_TEST_CONSTRAINTS:  ${{ github.workspace }}/napari/resources/constraints/constraints_py${{ inputs.python_version }}.txt
           NAPARI_TEST_EXTRA_SETUP_COMMANDS: uv pip install ${{ github.workspace }}/project
-          POSARGS: ${{ inputs.posargs }}
+          NAPARI_TOX_POSARGS: ${{ inputs.posargs }}
+          TOXENV: ${{ inputs.toxenv }}
+          BACKEND: ${{ inputs.qt_backend }}
